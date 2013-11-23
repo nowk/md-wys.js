@@ -21,6 +21,11 @@
 
       throttle = setTimeout(render(evt.target.value).bind(preview), throttlespeed);
     });
+
+    // render any initial value
+    if (editor.value.trim()) {
+      render(editor.value).call(preview);
+    }
   }
 
   function render(text) {
