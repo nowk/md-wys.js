@@ -1,66 +1,77 @@
 /* jshint laxcomma: true */
 
+// stub out some browser based goodies
+window = false;
+
+CustomEvent = function() {
+  //
+};
+
+
 var assert = require('assert')
-  , soda = require('soda')
-  , steps = require('./support/soda.pop')
-  , step = steps.step
-  , serc = require('serc.js')
-  , app = require('./app/app');
+  , sinon = require('sinon')
+  , mdwys = require('../md.wys.js');
 
-var Browser = soda.createClient({
-  host: 'localhost',
-  port: 4444,
-  url: 'http://localhost:7331',
-  browser: 'chrome'
-});
+var editor = {
+  value: '',
+  mockeventstack: {},
+  dispatchEvent: function(type, args) {
+    this.mockeventstack[type](args);
+  },
+  addEventListener: function(type, fn) {
+    this.mockeventstack[type] = fn;
+  }
+};
 
-
-
-describe('md.wys.js', function() {
-  this._timeout = 9999;
-
-  var selenium
-    , browser;
-
-  before(function(done) {
-    selenium = serc(function() {
-      app.listen(7331, done);
-    });
-  });
-
-  after(function() {
-    selenium.kill();
-  });
+var preview = {
+  innerHTML: ''
+};
 
 
-  beforeEach(function() {
-    browser = Browser.chain.session();
-  });
+describe('core', function() {
+  it('renders the value in the editor into the preview', function() {
+    mdwys(editor, preview, 0);
+    editor.dispatchEvent('keyup', {target: {value: 'Hello World!'}});
 
-  it.only('renders the typed in markdown text to html', function(done) {
-    browser
-      .open('/')
-      .when('I type "# hello world!" in the editor')
-      .then('the preview should render "h1" with "hello world!"')
-      .end(done);
+    setTimeout(function() {
+      assert.equal(preview.innerHTML, '<p>Hello World!</p>');
+    }, 5);
   });
 });
 
 
-/* steps
- */
+describe('utils.surround', function() {
+  it('surrounds the selected word', function() {
+    editor.value = 'Hello World!';
+    editor.selectionStart = 6;
+    editor.selectionEnd = 11;
+    mdwys.utils.surround('__').call(editor);
 
-step('I type "# hello world!" in the editor', function() {
-  var str = '# hello world!';
+    assert.equal(editor.value, 'Hello __World__!');
 
-  this
-    .type('css=[data-md-wys-editor]', str)
-    .typeKeys('css=[data-md-wys-editor]', str);
+    mdwys.utils.surround('__').call(editor, 8, 13);
+    assert.equal(editor.value, 'Hello ____World____!');
+  });
 });
 
-step('the preview should render "h1" with "hello world!"', function() {
-  this
-    .waitForVisible('css=[data-md-wys-preview] h1')
-    .assertText('css=[data-md-wys-preview] h1', 'hello world!');
+
+describe('utils.unsurround', function() {
+  it('unsurrounds the selected word', function() {
+    editor.value = 'Hello __World__!';
+    editor.selectionStart = 8;
+    editor.selectionEnd = 13;
+    mdwys.utils.unsurround('__').call(editor);
+
+    assert.equal(editor.value, 'Hello World!');
+  });
+
+  it('only removes the matching surrouding string', function() {
+    editor.value = 'Hello World!';
+    editor.selectionStart = 6;
+    editor.selectionEnd = 11;
+    mdwys.utils.unsurround('__').call(editor);
+
+    assert.equal(editor.value, 'Hello World!');
+  });
 });
 
