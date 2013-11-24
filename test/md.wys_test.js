@@ -3,10 +3,6 @@
 // stub out some browser based goodies
 window = false;
 
-CustomEvent = function() {
-  //
-};
-
 
 var assert = require('assert')
   , sinon = require('sinon')
@@ -28,50 +24,36 @@ var preview = {
 };
 
 
-describe('core', function() {
+describe('mdwys', function() {
   it('renders the value in the editor into the preview', function() {
-    mdwys(editor, preview, 0);
-    editor.dispatchEvent('keyup', {target: {value: 'Hello World!'}});
+    var e1 = Object.create(editor)
+      , p1 = Object.create(preview);
+
+    mdwys(e1, p1, 0);
+    e1.dispatchEvent('keyup', {target: {value: 'Hello World!'}});
 
     setTimeout(function() {
-      assert.equal(preview.innerHTML, '<p>Hello World!</p>');
+      assert.equal(p1.innerHTML, '<p>Hello World!</p>');
     }, 5);
   });
-});
 
 
-describe('utils.surround', function() {
-  it('surrounds the selected word', function() {
-    editor.value = 'Hello World!';
-    editor.selectionStart = 6;
-    editor.selectionEnd = 11;
-    mdwys.utils.surround('__').call(editor);
+  it('renders to the proper preview object', function() {
+    var e1 = Object.create(editor)
+      , e2 = Object.create(editor)
+      , p1 = Object.create(preview)
+      , p2 = Object.create(preview);
 
-    assert.equal(editor.value, 'Hello __World__!');
+    mdwys(e1, p1, 0);
+    mdwys(e2, p2, 0);
 
-    mdwys.utils.surround('__').call(editor, 8, 13);
-    assert.equal(editor.value, 'Hello ____World____!');
-  });
-});
+    e1.dispatchEvent('keyup', {target: {value: 'Hello World!'}});
+    e2.dispatchEvent('keyup', {target: {value: 'Foo Bar!'}});
 
-
-describe('utils.unsurround', function() {
-  it('unsurrounds the selected word', function() {
-    editor.value = 'Hello __World__!';
-    editor.selectionStart = 8;
-    editor.selectionEnd = 13;
-    mdwys.utils.unsurround('__').call(editor);
-
-    assert.equal(editor.value, 'Hello World!');
-  });
-
-  it('only removes the matching surrouding string', function() {
-    editor.value = 'Hello World!';
-    editor.selectionStart = 6;
-    editor.selectionEnd = 11;
-    mdwys.utils.unsurround('__').call(editor);
-
-    assert.equal(editor.value, 'Hello World!');
+    setTimeout(function() {
+      assert.equal(p2.innerHTML, '<p>Foo Bar!</p>');
+      assert.equal(p1.innerHTML, '<p>Hello World!</p>');
+    }, 5);
   });
 });
 
