@@ -1,0 +1,30 @@
+{
+  "private": true,
+  "name": "md-wys.js",
+  "version": "0.0.0",
+  "description": "Markdown WYSIWYG using Showdown.js",
+  "main": "md.wys.js",
+  "directories": {
+    "example": "example",
+    "test": "test"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "jade": "~0.35.0",
+    "express": "~3.4.4",
+    "serc.js": "~0.0.1",
+    "soda": "~0.2.5"
+  },
+  "scripts": {
+    "test": "mocha test/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/nowk/md.wys.js.git"
+  },
+  "author": "Yung H. Kwon <yung.kwon@damncarousel.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nowk/md.wys.js/issues"
+  }
+}
