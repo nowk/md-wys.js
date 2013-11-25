@@ -47,7 +47,7 @@
   /* checks for already existing surrounding
    */
 
-   function is_surrounded(str, start, end) {
+  function is_surrounded(str, start, end) {
     var strl = str.length
       , sl = l.call(this, start-strl, start)
       , er = l.call(this, end, end+strl);
