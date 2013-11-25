@@ -1,7 +1,7 @@
 /* jshint laxcomma: true */
 
 var assert = require('assert')
-  , mdutils = require('../md.wys.utils');
+  , mdutils = require('../md-wys.utils');
 
 var editor = {
   value: ''

@@ -3,7 +3,7 @@
   "name": "md-wys.js",
   "version": "0.0.0",
   "description": "Markdown WYSIWYG using Showdown.js",
-  "main": "md.wys.js",
+  "main": "md-wys.js",
   "directories": {
     "example": "example",
     "test": "test"
@@ -20,11 +20,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/nowk/md.wys.js.git"
+    "url": "git://github.com/nowk/md-wys.js.git"
   },
   "author": "Yung H. Kwon <yung.kwon@damncarousel.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/nowk/md.wys.js/issues"
+    "url": "https://github.com/nowk/md-wys.js/issues"
   }
 }

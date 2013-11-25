@@ -6,7 +6,7 @@ window = false;
 
 var assert = require('assert')
   , sinon = require('sinon')
-  , mdwys = require('../md.wys.js');
+  , mdwys = require('../md-wys.js');
 
 var editor = {
   value: '',

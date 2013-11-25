@@ -30,7 +30,7 @@
       return;
     }
 
-    var ln = l.bind(this);
+    var ln = l.bind(this); // TODO find a better way for this, bind creates a new function
 
     this.value = ln(0, start)+str+ln(start, end)+str+ln(end, this.value.length);
   };
