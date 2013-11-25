@@ -2,13 +2,10 @@
 
 (function() {
   var Showdown;
-
-  if (window.Showdown) {
-    Showdown = window.Showdown;
-  } else if ('function' === typeof require) {
-    Showdown = require('showdown');
-  } else {
-    throw new Error('showdown.js is required to run md.wys.js');
+  try {
+    Showdown = window.Showdown || require('showdown');
+  } catch(e) {
+    throw new Error('error loading showdown.js');
   }
 
 
