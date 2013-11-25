@@ -19,7 +19,7 @@
    */
 
   function mdwys(editor, preview, throspeed) {
-    editor.addEventListener('keyup', keyup(throspeed).bind(preview)); 
+    editor.addEventListener('keyup', keyup.call(preview, throspeed)); 
 
     if (editor.value.trim()) {
       render.call(preview, editor.value);
@@ -31,7 +31,8 @@
    */
 
   function keyup(throspeed) {
-    var throttle;
+    var self = this
+      , throttle;
 
     if ('number' !== typeof throspeed) {
       throspeed = 250;
@@ -42,7 +43,7 @@
         clearTimeout(throttle);
       }
 
-      throttle = setTimeout(render.bind(this, evt.target.value), throspeed);
+      throttle = setTimeout(render.bind(self, evt.target.value), throspeed);
     };
   }
 
