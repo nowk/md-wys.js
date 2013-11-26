@@ -11,7 +11,7 @@
    */
 
   utils.unsurround = function(str, start, end) {
-    if (!is_surrounded.call(this, str, start, end)) {
+    if (!utils.is_surrounded.call(this, str, start, end)) {
       return;
     }
 
@@ -30,10 +30,22 @@
       return;
     }
 
-    var ln = l.bind(this); // TODO find a better way for this, bind creates a new function
+    var ln = l.bind(this); // TODO do we need to bind?
 
     this.value = ln(0, start)+str+ln(start, end)+str+ln(end, this.value.length);
   };
+
+
+  /* checks for already existing surrounding
+   */
+
+  utils.is_surrounded = function(str, start, end) {
+    var strl = str.length
+      , sl = l.call(this, start-strl, start)
+      , er = l.call(this, end, end+strl);
+
+    return (sl === str && er === str);
+   };
 
 
   /* substring shortcut
@@ -44,22 +56,13 @@
   }
 
 
-  /* checks for already existing surrounding
-   */
-
-  function is_surrounded(str, start, end) {
-    var strl = str.length
-      , sl = l.call(this, start-strl, start)
-      , er = l.call(this, end, end+strl);
-
-    return (sl === str && er === str);
-   }
-
 
 
   //\/\
   if ('object' === typeof module) {
     module.exports = utils;
+  } else {
+    this.mdwys.utils = utils;
   }
 
 }).call(this);

@@ -5,7 +5,7 @@
       .column-editor, .column-preview {
         position: absolute;
         top: 0;
-        bottom: 0;
+        bottom: 55px;
         padding: 10px;
       }
 
@@ -24,7 +24,7 @@
       }
 
       [data-md-wys-editor] {
-        font-size: 15px;
+        font-size: 13px;
         font-family: 'Andale Mono', monospace;
 
         width: 100%;
@@ -33,26 +33,69 @@
         outline: none;
         background: transparent !important;
       }
+
+      .toolbar {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        height: 55px;
+        background-color: #333;
+      }
+
+      .toolbar a {
+        margin-top: 15px;
+        margin-left: 5px;
+        min-width: 25px;
+
+        border: 1px solid #4a4a4a;
+        border-radius: 1px;
+        display: inline-block;
+        padding: 5px 0;
+
+        text-align: center;
+        font-size: 12px;
+        color: #fff;
+      }
+
+      .toolbar a:first-child {
+        margin-left: 10px;
+      }
+
+      .toolbar a:hover {
+        background-color: #4a4a4a;
+      }
     </style>
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
     <script src="javascripts/showdown.js"></script>
     <!-- add shodown extensions you want to use here -->
   </head>
   <body>
     <div class="column-editor">
-      <textarea data-md-wys-editor placeholder='Your Markdown Goes Here'>
-# hello world!
-      </textarea>
+      <textarea data-md-wys-editor placeholder='Your Markdown Goes Here'># hello world!
+
+This is a sentence.
+</textarea>
     </div>
     <div class="column-preview">
       <div data-md-wys-preview></div>
     </div>
+    <div class='toolbar' data-md-wys-tools>
+      <a href="#" data-md-wys-fmt-bold><i class='fa fa-bold'></i></a>
+      <a href="#" data-md-wys-fmt-italic><i class='fa fa-italic'></i></a>
+    </div>
 
     <script src="../md-wys.js"></script>
+    <script src="../md-wys.utils.js"></script>
+    <script src="../md-wys.editortools.js"></script>
     <script>
       mdwys.init({
         editor: '[data-md-wys-editor]',
         preview: '[data-md-wys-preview]'
       }, 250);
+
+      var editor = document.querySelector('[data-md-wys-editor]');
+      mdwys.editortools(editor);
     </script>
   </body>
 </html>
