@@ -61,24 +61,6 @@ describe('utils.surrounded', function() {
   });
 });
 
-
-describe('utils.surround', function() {
-  it('surrounds the selected word', function() {
-    editor.value = 'Hello World!';
-    mdutils.surround.call(editor, '__', 6, 11);
-
-    assert.equal(editor.value, 'Hello __World__!');
-  });
-
-  it('continues to surround the word', function() {
-    editor.value = 'Hello __World__!';
-    mdutils.surround.call(editor, '__', 8, 13);
-
-    assert.equal(editor.value, 'Hello ____World____!');
-  });
-});
-
-
 describe('utils.unsurround', function() {
   it.skip('unsurrounds the selected word', function() {
     editor.value = 'Hello __World__!';

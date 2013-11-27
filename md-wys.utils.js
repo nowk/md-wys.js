@@ -27,7 +27,7 @@
   };
 
 
-  /* adds markdown surrounding syntax
+  /* wrap text range with string (pree/append)
    */
 
   utils.surround = function(str, start, end) {
@@ -42,8 +42,8 @@
   };
 
 
-  /* returns surrounded text based on match
-   * returns the string range used to match if there is no match
+  /* return markdown surrounding expression within range
+   * returns the unaltered ranged string otherwise
    */
 
   utils.surrounded = function(str, start, end) {
