@@ -68,8 +68,8 @@ describe('editortools', function() {
 
     it('unbolds', function() {
       editor.value = 'Hello __World__!';
-      editor.selectionStart = 8;
-      editor.selectionEnd = 13;
+      editor.selectionStart = 6;
+      editor.selectionEnd = 15;
       mdeditor(editor);
       selectors['[data-md-wys-fmt-bold]'].evt();
 
@@ -92,8 +92,8 @@ describe('editortools', function() {
 
     it('unitalisizes', function() {
       editor.value = 'Hello _World_!';
-      editor.selectionStart = 7;
-      editor.selectionEnd = 12;
+      editor.selectionStart = 6;
+      editor.selectionEnd = 13;
       mdeditor(editor);
       selectors['[data-md-wys-fmt-italic]'].evt();
 

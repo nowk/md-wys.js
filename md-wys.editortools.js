@@ -15,18 +15,17 @@
   }
 
 
-  /* wrapper to toggle utils.surround
+  /* surround toggler
    */
 
   function surround(str, evt) {
-    var start = this.selectionStart
-      , end = this.selectionEnd
-      , args = [str, start, end];
+    var args = [str, this.selectionStart, this.selectionEnd]
+      , surrounded = mdwys.utils.surrounded.apply(this, args);
 
-    if (mdwys.utils.is_surrounded.apply(this, args)) {
-      mdwys.utils.unsurround.apply(this, args);
-    } else {
+    if ('string' === typeof surrounded) {
       mdwys.utils.surround.apply(this, args);
+    } else {
+      mdwys.utils.unsurround.apply(this, args);
     }
 
     this.dispatchEvent(keyupevent);
