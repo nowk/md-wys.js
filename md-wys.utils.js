@@ -3,26 +3,31 @@
 (function() {
   var utils = {};
 
-  /* unsurround selected text
-   *
-   * ___|matching outers|___
-   * TODO unsurround may need inner search |___matching outers___|
-   * dblclick text selection seems to select all between || in textareas
+  /* removes markdown surrounding syntax
    */
 
   utils.unsurround = function(str, start, end) {
-    if (!utils.is_surrounded.call(this, str, start, end)) {
-      return;
+    var surrounded = utils.surrounded.call(this, str, start, end);
+
+    // no match since we got a string back
+    if ('string' === typeof surrounded) {
+      return surrounded;
     }
 
     var strl = str.length
-      , ln = l.bind(this);
+      , st = surrounded[2] // .slice(1, 4)
+      , r = new RegExp('(_{'+strl+'})(.+)(_{'+strl+'})')
+      , unsurrounded = surrounded[2].match(r);
 
-    this.value = ln(0, start-strl)+ln(start, end)+ln(end+strl, this.value.length);
+    if (unsurrounded) {
+      st = unsurrounded[2];
+    }
+
+    this.value = rebuild_markdown.call(this, st, start, end);
   };
 
 
-  /* surround selected text
+  /* adds markdown surrounding syntax
    */
 
   utils.surround = function(str, start, end) {
@@ -30,22 +35,31 @@
       return;
     }
 
-    var ln = l.bind(this); // TODO do we need to bind?
+    var t = l.call(this, start, end)
+      , st = str+t+str;
 
-    this.value = ln(0, start)+str+ln(start, end)+str+ln(end, this.value.length);
+    this.value = rebuild_markdown.call(this, st, start, end);
   };
 
 
-  /* checks for already existing surrounding
+  /* returns surrounded text based on match
+   * returns the string range used to match if there is no match
    */
 
-  utils.is_surrounded = function(str, start, end) {
+  utils.surrounded = function(str, start, end) {
     var strl = str.length
-      , sl = l.call(this, start-strl, start)
-      , er = l.call(this, end, end+strl);
+      , t = l.call(this, start-strl, end+strl);
 
-    return (sl === str && er === str);
-   };
+    return t.match('^([^_]*)(_{'+strl+'}.+_{'+strl+'})([^_]*)$') || t;
+  };
+
+
+  /* rebuild markdown
+   */
+
+  function rebuild_markdown(text, start, end) {
+    return l.call(this, 0, start) + text + l.call(this, end, this.value.length);
+  }
 
 
   /* substring shortcut
@@ -54,7 +68,6 @@
   function l(start, end) {
     return this.value.substring(start, end);
   }
-
 
 
 
