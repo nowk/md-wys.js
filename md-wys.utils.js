@@ -16,7 +16,7 @@
     var surstring = utils.surrounded(text, str, start, end);
 
     if ('string' === typeof surstring) {
-      return rebuild_string.call(text, surstring, start-padsize, end+padsize);
+      return text;
     }
 
     var st = surstring[0]
