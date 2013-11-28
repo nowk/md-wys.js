@@ -9,7 +9,7 @@
     , padsize = 3;
 
 
-  /* removes markdown surrounding syntax
+  /* removes surrounding string from text range (start+end)
    */
 
   utils.unsurround = function(text, str, start, end) {
@@ -31,7 +31,7 @@
   };
 
 
-  /* wrap text range with string (pree/append)
+  /* wrap text range with string (pref/append)
    */
 
   utils.surround = function(text, str, start, end) {
@@ -46,8 +46,15 @@
   };
 
 
-  /* return markdown surrounding expression within range
-   * returns the unaltered ranged string otherwise
+  /* returns surrounded by str of text from range with padding
+   *
+   * //----------------1234567890123456
+   *
+   * utils.surrounded('Hello _World_!', __, 6, 13);   // no match
+   * => 'lo _World_!'
+   *
+   * utils.surrounded('Hello __World__!', __, 6, 14); // match
+   * => ['lo __World__!', 'lo ', '__World__', '!', ...]
    */
 
   utils.surrounded = function(text, str, start, end) {
