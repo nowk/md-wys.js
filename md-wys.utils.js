@@ -1,44 +1,48 @@
 /* jshint laxcomma: true */
 
 (function() {
-  var utils = {};
+  /* language utilities for markdown string manipulation
+   *
+   */
+
+  var utils = {}
+    , padsize = 3;
+
 
   /* removes markdown surrounding syntax
    */
 
-  utils.unsurround = function(str, start, end) {
-    var surrounded = utils.surrounded.call(this, str, start, end);
+  utils.unsurround = function(text, str, start, end) {
+    var surstring = utils.surrounded(text, str, start, end);
 
-    // no match since we got a string back
-    if ('string' === typeof surrounded) {
-      return surrounded;
+    if ('string' === typeof surstring) {
+      return rebuild_string.call(text, surstring, start-padsize, end+padsize);
     }
 
-    var strl = str.length
-      , st = surrounded[2] // .slice(1, 4)
-      , r = new RegExp('(_{'+strl+'})(.+)(_{'+strl+'})')
-      , unsurrounded = surrounded[2].match(r);
+    var st = surstring[0]
+      , r = new RegExp('('+str+'{1})(.+)('+str+'{1})')
+      , uns_string = surstring[2].match(r);
 
-    if (unsurrounded) {
-      st = unsurrounded[2];
+    if (uns_string) {
+      st = surstring[1] + uns_string[2] + surstring[3];
     }
 
-    this.value = rebuild_markdown.call(this, st, start, end);
+    return rebuild_string.call(text, st, start-padsize, end+padsize);
   };
 
 
   /* wrap text range with string (pree/append)
    */
 
-  utils.surround = function(str, start, end) {
-    if (!str || start === end) {
+  utils.surround = function(text, str, start, end) {
+    if (!text || !str || start === end) {
       return;
     }
 
-    var t = l.call(this, start, end)
+    var t = text.substring(start, end)
       , st = str+t+str;
 
-    this.value = rebuild_markdown.call(this, st, start, end);
+    return rebuild_string.call(text, st, start, end);
   };
 
 
@@ -46,27 +50,18 @@
    * returns the unaltered ranged string otherwise
    */
 
-  utils.surrounded = function(str, start, end) {
-    var strl = str.length
-      , t = l.call(this, start-strl, end+strl);
+  utils.surrounded = function(text, str, start, end) {
+    var t = text.substring(start-padsize, end+padsize); // look surround 3
 
-    return t.match('^([^_]*)(_{'+strl+'}.+_{'+strl+'})([^_]*)$') || t;
+    return t.match('^([^'+str+']*)('+str+'{1}.+'+str+'{1})([^'+str+']*)$') || t;
   };
 
 
-  /* rebuild markdown
+  /* rebuild string
    */
 
-  function rebuild_markdown(text, start, end) {
-    return l.call(this, 0, start) + text + l.call(this, end, this.value.length);
-  }
-
-
-  /* substring shortcut
-   */
-
-  function l(start, end) {
-    return this.value.substring(start, end);
+  function rebuild_string(text, start, end) {
+    return this.substring(0, start) + text + this.substring(end, this.length);
   }
 
 
@@ -75,7 +70,7 @@
   if ('object' === typeof module) {
     module.exports = utils;
   } else {
-    this.mdwys.utils = utils;
+    this.mdwys.lang = {utils: utils};
   }
 
 }).call(this);
