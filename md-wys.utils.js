@@ -21,10 +21,10 @@
 
     var st = surstring[0]
       , r = new RegExp('('+str+'{1})(.+)('+str+'{1})')
-      , uns_string = surstring[2].match(r);
+      , unsstring = surstring[2].match(r);
 
-    if (uns_string) {
-      st = surstring[1] + uns_string[2] + surstring[3];
+    if (unsstring) {
+      st = surstring[1] + unsstring[2] + surstring[3];
     }
 
     return rebuild_string.call(text, st, start-padsize, end+padsize);
@@ -77,7 +77,7 @@
   if ('object' === typeof module) {
     module.exports = utils;
   } else {
-    this.mdwys.lang = {utils: utils};
+    this.mdwys.lang = utils;
   }
 
 }).call(this);

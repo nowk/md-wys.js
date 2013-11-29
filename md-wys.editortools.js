@@ -3,34 +3,52 @@
 (function() {
   var keyupevent = new CustomEvent('keyup');
 
+
+  /* __bold__
+   */
+
+  function onbold(editor) {
+    return toggle_surround.bind(editor, '__');
+  }
+
+
+  /* _italic_
+   */
+
+  function onitalic(editor) {
+    return toggle_surround.bind(editor, '_');
+  }
+
+
+
   /* editor tools
    */
 
   function editortools(editor) {
-    var bold = document.querySelector('[data-md-wys-fmt-bold]')
-      , italic = document.querySelector('[data-md-wys-fmt-italic]');
+    var bold = document.querySelector('[data-mdwys-bold]')
+      , italic = document.querySelector('[data-mdwys-italic]');
 
-    bold.addEventListener('click', surround.bind(editor, '__'));
-    italic.addEventListener('click', surround.bind(editor, '_'));
+    bold
+      .addEventListener('click', onbold(editor));
+
+    italic
+      .addEventListener('click', onitalic(editor));
   }
 
 
   /* surround toggler
    */
 
-  function surround(str, evt) {
-    var args = [str, this.selectionStart, this.selectionEnd]
-      , surrounded = mdwys.utils.surrounded.apply(this, args);
+  function toggle_surround(str, evt) {
+    var start = this.selectionStart
+      , end = this.selectionEnd;
 
-    if ('string' === typeof surrounded) {
-      mdwys.utils.surround.apply(this, args);
-    } else {
-      mdwys.utils.unsurround.apply(this, args);
-    }
+    var surrounded = mdwys.lang.surrounded(this.value, str, start, end)
+      , surr_type = ('string' === typeof surrounded) ? 'surround' : 'unsurround';
 
+    this.value = mdwys.lang[surr_type](this.value, str, start, end);
     this.dispatchEvent(keyupevent);
   }
-
 
 
   //\/\

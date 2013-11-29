@@ -23,7 +23,7 @@
         font-family: sans-serif;
       }
 
-      [data-md-wys-editor] {
+      [data-mdwys-editor] {
         font-size: 13px;
         font-family: 'Andale Mono', monospace;
 
@@ -72,17 +72,17 @@
   </head>
   <body>
     <div class="column-editor">
-      <textarea data-md-wys-editor placeholder='Your Markdown Goes Here'># hello world!
+      <textarea data-mdwys-editor placeholder='Your Markdown Goes Here'># hello world!
 
 This is a sentence.
 </textarea>
     </div>
     <div class="column-preview">
-      <div data-md-wys-preview></div>
+      <div data-mdwys-preview></div>
     </div>
     <div class='toolbar' data-md-wys-tools>
-      <a href="#" data-md-wys-fmt-bold><i class='fa fa-bold'></i></a>
-      <a href="#" data-md-wys-fmt-italic><i class='fa fa-italic'></i></a>
+      <a href="#" data-mdwys-bold><i class='fa fa-bold'></i></a>
+      <a href="#" data-mdwys-italic><i class='fa fa-italic'></i></a>
     </div>
 
     <script src="../md-wys.js"></script>
@@ -90,11 +90,11 @@ This is a sentence.
     <script src="../md-wys.editortools.js"></script>
     <script>
       mdwys.init({
-        editor: '[data-md-wys-editor]',
-        preview: '[data-md-wys-preview]'
       }, 250);
+        editor: '[data-mdwys-editor]',
+        preview: '[data-mdwys-preview]',
 
-      var editor = document.querySelector('[data-md-wys-editor]');
+      var editor = document.querySelector('[data-mdwys-editor]');
       mdwys.editortools(editor);
     </script>
   </body>

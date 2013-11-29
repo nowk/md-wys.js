@@ -65,7 +65,6 @@ describe('utils.surround', function() {
 
 describe('utils.unsurround', function() {
   it('unsurrounds the selected word inner selection ..|...|..', function() {
-    //              1234567890123456
     var un = mdutils.unsurround('Hello __World__!', '__', 8, 13);
     assert.equal(un, 'Hello World!');
   });
@@ -76,8 +75,16 @@ describe('utils.unsurround', function() {
   });
 
   it('only removes the matching surrouding string', function() {
-    var un = mdutils.unsurround('Hello World!', '__', 6, 11);
-    assert.equal(un, 'Hello World!');
+    var u1 = mdutils.unsurround('Hello World!', '__', 6, 11);
+    assert.equal(u1, 'Hello World!');
+
+    var u2 = mdutils.unsurround('Hello ___World___!', '__', 6, 18);
+    assert.equal(u2, 'Hello _World_!');
+  });
+
+  it.skip('removes the single instance in a multiple match', function() {
+    var un = mdutils.unsurround('Hello __World__!', '_', 6, 15, true);
+    assert.equal(un, 'Hello __World__!');
   });
 });
 

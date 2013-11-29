@@ -31,7 +31,7 @@ var editor = {
 
 // FIXME a better way?
 mdwys = require('../md-wys');
-mdwys.utils = mdutils;
+mdwys.lang = mdutils;
 
 document = {
   querySelector: function(selector) {
@@ -60,7 +60,7 @@ describe('editortools', function() {
       editor.selectionStart = 6;
       editor.selectionEnd = 11;
       mdeditor(editor);
-      selectors['[data-md-wys-fmt-bold]'].evt();
+      selectors['[data-mdwys-bold]'].evt();
 
       assert.equal(editor.value, 'Hello __World__!');
       assert(editor.dispatchEvent.calledOnce);
@@ -71,7 +71,7 @@ describe('editortools', function() {
       editor.selectionStart = 6;
       editor.selectionEnd = 15;
       mdeditor(editor);
-      selectors['[data-md-wys-fmt-bold]'].evt();
+      selectors['[data-mdwys-bold]'].evt();
 
       assert.equal(editor.value, 'Hello World!');
       assert(editor.dispatchEvent.calledOnce);
@@ -84,7 +84,7 @@ describe('editortools', function() {
       editor.selectionStart = 6;
       editor.selectionEnd = 11;
       mdeditor(editor);
-      selectors['[data-md-wys-fmt-italic]'].evt();
+      selectors['[data-mdwys-italic]'].evt();
 
       assert.equal(editor.value, 'Hello _World_!');
       assert(editor.dispatchEvent.calledOnce);
@@ -95,7 +95,7 @@ describe('editortools', function() {
       editor.selectionStart = 6;
       editor.selectionEnd = 13;
       mdeditor(editor);
-      selectors['[data-md-wys-fmt-italic]'].evt();
+      selectors['[data-mdwys-italic]'].evt();
 
       assert.equal(editor.value, 'Hello World!');
       assert(editor.dispatchEvent.calledOnce);
